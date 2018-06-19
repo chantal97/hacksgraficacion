@@ -17,11 +17,11 @@
         {0.0,0.0,0.0}, //8 negro
 	};
 
-	int color  = 8;     // color de FIGURA
-	int colorf = 8;     // color de FONDO
+	int color  = 7;     // color de FIGURA
+	int colorf = 0;     // color de FONDO
 	int colorl = 3;     // color de LUZ
 	//int colordif= 2; //color difuso de ambiental (verde)
-    int coloresp= 5;//color especular ambiental
+    int coloresp= 3;//color especular ambiental
 	//variables globales para la rotacion
 	float alpha, beta;
 	int x0, y0;
@@ -32,7 +32,7 @@
 	float xpos=0, ypos=0, inc=0.5;
 
 	//Menu de figuras a elegir
-	typedef enum{F1,F2,F3,F4,F5,F6,F7,F8,F9,C1,C2,C3,C4,C5,C6,C7,C8,C9,E1,E2,D1,D2,S1,S2}opcionMenu;
+	typedef enum{F1,F2,F3,F4,F5,F6,F7,F8,F9,C1,C2,C3,C4,C5,C6,C7,C8,C9,E1,E2,E3,D1,D2,D3,S1,S2}opcionMenu;
 
 void luzAmbiental(void)
 {
@@ -50,8 +50,8 @@ void luzAmbiental(void)
 
 void luzUno(void)
 {
-	GLfloat l_difusa[]={colores[1][0], colores[1][1], colores[1][2], 0.0f};
-	GLfloat l_especular[]={colores[8][0], colores[8][1], colores[8][2], 0.0f};
+	GLfloat l_difusa[]={colores[3][0], colores[3][1], colores[3][2], 0.0f};
+	GLfloat l_especular[]={colores[1][0], colores[1][1], colores[1][2], 0.0f};
 	GLfloat l_posicion[]={0.0f, 5.0f, 0.0f, 1.0f};
 
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, l_difusa);
@@ -62,8 +62,8 @@ void luzUno(void)
 
 void luzDos(void){
 
-    GLfloat l_difusa[]={colores[4][0], colores[4][1], colores[4][2], 0.0f};
-	GLfloat l_especular[]={colores[6][0], colores[6][1], colores[6][2], 0.0f};
+    GLfloat l_difusa[]={colores[6][0], colores[6][1], colores[6][2], 0.0f};
+	GLfloat l_especular[]={colores[4][0], colores[4][1], colores[4][2], 0.0f};
 	GLfloat l_posicion[]={-5.0f, 0.0f, 0.0f, 1.0f};
 
 	glLightfv(GL_LIGHT2, GL_DIFFUSE, l_difusa);
@@ -76,7 +76,7 @@ void luzDos(void){
 
 void luzTres(void)
 {
-	GLfloat l_difusa[]={colores[5][0], colores[5][1], colores[5][2], 1.0f};
+	GLfloat l_difusa[]={colores[0][0], colores[0][1], colores[0][2], 1.0f};
 	GLfloat l_especular[]={colores[1][0], colores[1][1], colores[1][2], 1.0f};
 
 	GLfloat l_posicion[]={0.0f,0.0f, 5.0f, 1.0f};
@@ -86,8 +86,8 @@ void luzTres(void)
 	glLightfv(GL_LIGHT3, GL_SPECULAR, l_difusa);
 	glLightfv(GL_LIGHT3, GL_POSITION, l_posicion);
 
-	glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 3.0);
-	glLightf(GL_LIGHT3, GL_SPOT_EXPONENT, 2.0);
+	glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 1.0);
+	glLightf(GL_LIGHT3, GL_SPOT_EXPONENT, 1.0);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direccion);
 	//glEnable (GL_LIGHT3);
 }
@@ -103,7 +103,7 @@ void init(void)
 void display(void)
 {
 
-glClearColor(colores[colorf][0],colores[colorf][1],colores[colorf][2], 0.0f);
+	glClearColor(colores[colorf][0],colores[colorf][1],colores[colorf][2], 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_PROJECTION);
@@ -261,7 +261,9 @@ void menuFiguras(int opcion)
 			break;
 		case E2:
 		    glEnable(GL_LIGHT2);
-
+            break;
+		case E3:
+		    glEnable(GL_LIGHT3);
             break;
 
 		case D1:
@@ -271,6 +273,10 @@ void menuFiguras(int opcion)
 		case D2:
             glDisable(GL_LIGHT2);
             break;
+		case D3:
+		    glDisable(GL_LIGHT3);
+            break;
+
 	}
 
 	luzAmbiental();
@@ -317,19 +323,23 @@ void creacionMenu(void)
 	//----------------------------------------------------------
 
         // NIVEL 3 DE SUB-MENUS PARA ACTIVAR LUCES
-        on = glutCreateMenu(menuFiguras);
+    on = glutCreateMenu(menuFiguras);
         /*
             AQUI VAN LAS OPCIONES
         */
 	glutAddMenuEntry("Activar luz 1", E1);
     glutAddMenuEntry("Activar luz 2", E2);
+	glutAddMenuEntry("Activar spot", E3);
+    glutAddMenuEntry("Desactivar luz 1", D1);
+    glutAddMenuEntry("Desactivar luz 2", D2);
+	glutAddMenuEntry("Desactivar spot", D3);
         // NIVEL 3 DE SUB-MENUS PARA DESACTIVAR LUCES
-        off = glutCreateMenu(menuFiguras);
+        // off = glutCreateMenu(menuFiguras);
         /*
             AQUI VAN LAS OPCIONES
         */
-	glutAddMenuEntry("Desactivar luz 1", D1);
-    glutAddMenuEntry("Desactivar luz 2", D2);
+	
+    
     // NIVEL 2 DE SU-MENUS
 	menuLUCES = glutCreateMenu(menuFiguras);
 	/*
@@ -353,11 +363,11 @@ void creacionMenu(void)
 
     // MENU PRINCIPAL (NIVEL 1)
 	menuMain = glutCreateMenu(menuFiguras);
-    glutAddSubMenu("Figura 3D", menuFIGURA);
-    glutAddSubMenu("Fondo", menuFONDO);
-    glutAddSubMenu("Color Figuras: ", menuCOLOR);
-    glutAddSubMenu("Activar Luces:", on);
-    glutAddSubMenu("Desactivar Luces: ", off);
+    glutAddSubMenu("Figura 3D: ", menuFIGURA);
+    glutAddSubMenu("Fondo: ", menuFONDO);
+    glutAddSubMenu("Color: ", menuCOLOR);
+    glutAddSubMenu("Luces:", on);
+    // glutAddSubMenu("Desactivar Luces: ", off);
 	/*
         AQUI VAN LOS SUB-MENUS DE NIVEL 2
     */
