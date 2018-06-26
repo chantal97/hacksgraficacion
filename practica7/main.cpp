@@ -154,11 +154,11 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
     luzAmbiental();
-    //redPlastic();
-    //blackPlastic();
-	//esmeralda();
+    redPlastic();
+    blackPlastic();
+	esmeralda();
 	//pewter();
-	chrome();
+	//chrome();
 	glPushMatrix();
 
 		glTranslatef(xpos,ypos,0);
