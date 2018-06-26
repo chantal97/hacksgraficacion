@@ -75,7 +75,6 @@ void luzUno(void)
 
 void init(void)
 {
-	luzAmbiental();
 	//luzUno();
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
@@ -92,6 +91,49 @@ void display(void)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
+	//gluPerspective(20.0f, 1.0f, 1.0f, 10.0f);
+	glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 5.0f);
+    //gluPerspective(20.0f, 1.0f, 1.0f, 10.0f);
+   
+	gluLookAt(vistas[opc][0],vistas[opc][1],vistas[opc][2],vistas[opc][3],
+              vistas[opc][4],vistas[opc][5],vistas[opc][6],vistas[opc][7],vistas[opc][8]);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glPushMatrix();
+
+		glTranslatef(xpos,ypos,0);
+
+		if(opc != 9)
+			glScalef(inc,inc,inc);
+		else
+			glScalef(inc-0.15,inc-0.15,inc-0.15);
+
+		//glRotatef(alpha, 1.0f, 0.0f, 0.0f);
+		//glRotatef(beta, 0.0f, 1.0f, 0.0f);
+
+		glColor3f(0.61, 0.66, 0.77);
+		//glPolygonMode(GL_FRONT,GL_FILL);
+		glPolygonMode( GL_FRONT_AND_BACK, modo);
+		glutSolidTeapot(1);		
+	glPopMatrix();
+
+	glFlush();
+	glutSwapBuffers();
+}
+
+
+void perspectiva(void)
+{
+
+	glClearColor(colores[colorf][0],colores[colorf][1],colores[colorf][2], 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	luzAmbiental();
+	
 	//gluPerspective(20.0f, 1.0f, 1.0f, 10.0f);
 	//glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 5.0f);
     gluPerspective(20.0f, 1.0f, 1.0f, 10.0f);
@@ -123,6 +165,7 @@ void display(void)
 	glFlush();
 	glutSwapBuffers();
 }
+
 
 //Accion del mouse
 void onMouse(int button, int state, int x, int y)
@@ -216,9 +259,19 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Figuras 3D");
-	init();
-	glutDisplayFunc(display);	
+	glutCreateWindow("Ortogonal");	
+	init();	
+	glutDisplayFunc(display);		
+	glutDisplayFunc(perspectiva);	
+	glutMouseFunc(onMouse);
+	glutMotionFunc(onMotion);
+	creacionMenu();
+		
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("Perspectiva");
+	init();	
+	glutDisplayFunc(perspectiva);	
 	glutMouseFunc(onMouse);
 	glutMotionFunc(onMotion);
 	creacionMenu();
