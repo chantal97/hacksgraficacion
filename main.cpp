@@ -1,5 +1,7 @@
 //JUAN CARLOS CONDE RAMÍREZ
 //OBJETOS 3D - ILUMINACION
+//comentario agregado
+
 #include <stdio.h>
 #include <GL/glut.h>
 #include <GL/gl.h>
@@ -12,6 +14,7 @@
 		{0.0,1.0,0.0}, //2 verde
 		{0.0,0.0,1.0}, //3 azul
 	};
+	Se puede tronar
 
 	int color  = 2;     // color de FIGURA
 	int colorf = 0;     // color de FONDO
